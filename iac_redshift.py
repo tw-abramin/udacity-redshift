@@ -8,7 +8,7 @@ aws_credentials =yaml.load(aws_credentials_file, Loader=yaml.FullLoader)
 AWS_KEY=aws_credentials['KEY']
 AWS_SECRET=aws_credentials['SECRET']
 
-def open_tcp_port(vpc):
+def open_tcp_port():
     ec2 = boto3.resource('ec2',
                         region_name="us-west-2",
                         aws_access_key_id=AWS_KEY,
@@ -17,7 +17,7 @@ def open_tcp_port(vpc):
 
     try:
         print('OPENING TCP PORT')
-        vpc = ec2.Vpc(id=vpc)
+        vpc = ec2.Vpc(id=aws_helper.VPC_ID)
         defaultSg = list(vpc.security_groups.all())[0]
         print(defaultSg)
         defaultSg.authorize_ingress(

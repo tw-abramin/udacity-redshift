@@ -20,5 +20,10 @@ S3_SONG_DATA=config.get('S3', 'SONG_DATA')
 
 IAM_ROLE_ARN=config.get('IAM_ROLE','ARN')
 
+VPC_ID='VPC_ID'
+
 def set_cluster_endpoint(endpoint):
     DB_HOST=endpoint
+
+def set_vpc(vpcId):
+    VPC_ID=vpcId

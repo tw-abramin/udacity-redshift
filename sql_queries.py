@@ -110,13 +110,13 @@ weekday INTEGER)
 staging_events_copy = ("""
 copy staging_events from 's3://udacity-dend/song_data' 
 credentials 'aws_iam_role=arn:aws:iam::590606803980:role/DWH_IAM_REDSHIFT_TEST_ROLE'
-gzip region 'us-west-2';
+format as json 'auto' region 'us-west-2';
 """).format()
 
 staging_songs_copy = ("""
 copy staging_songs from 's3://udacity-dend/log_data' 
 credentials 'aws_iam_role=arn:aws:iam::590606803980:role/DWH_IAM_REDSHIFT_TEST_ROLE'
-gzip region 'us-west-2';
+format as json 'auto' region 'us-west-2';
 """).format()
 
 # FINAL TABLES

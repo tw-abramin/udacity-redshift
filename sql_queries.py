@@ -1,9 +1,5 @@
 import aws_helper
 
-# CONFIG
-# config = configparser.ConfigParser()
-# config.read('dwh.cfg')
-
 # DROP TABLES
 
 staging_events_table_drop = "DROP TABLE IF EXISTS staging_events"
@@ -15,27 +11,33 @@ artist_table_drop = "DROP TABLE IF EXISTS artists"
 time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
-
-staging_events_table_create= ("""
+test_table = (
+    """
+    CREATE TABLE IF NOT EXISTS test (
+        test_id INT,
+        tes_name CHAR)
+    """
+)
+staging_events_table_create = ("""
 CREATE TABLE IF NOT EXISTS staging_events (
-artist_name VARCHAR,
-auth VARCHAR,
-first_name VARCHAR,
-last_name VARCHAR,
-gender CHAR,
+artist_name VARCHAR(100),
+auth VARCHAR(25),
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+gender CHAR(3),
 item_in_session INTEGER,
 length FLOAT,
-level CHAR,
-location VARCHAR,
-method CHAR,
-page CHAR,
-registration NUMERIC,
+level CHAR(25),
+location VARCHAR(50),
+method CHAR(5),
+page CHAR(25),
+registration FLOAT,
 session_id INTEGER,
-song_title VARCHAR,
+song_title VARCHAR(100),
 status SMALLINT,
 start_time BIGINT,
-user_agent VARCHAR,
-user_id VARCHAR
+user_agent VARCHAR(256),
+user_id VARCHAR(128))
 """)
 
 staging_songs_table_create = ("""
@@ -49,21 +51,7 @@ duration FLOAT,
 num_songs INTEGER,
 song_id VARCHAR NOT NULL,
 title VARCHAR,
-year INTEGER
-)
-""")
-
-songplay_table_create = ("""
-CREATE TABLE IF NOT EXISTS songplays (
-songplay_id IDENTITY(0,1) NOT NULL PRIMARY KEY SORTKEY,
-start_time BIGINT,
-user_id VARCHAR REFERENCES users (user_id),
-level VARCHAR,
-song_id VARCHAR REFERENCES songs (song_id),
-artist_id VARCHAR REFERENCES artists (artist_id),
-session_id VARCHAR,
-location VARCHAR,
-user_agent VARCHAR
+year INTEGER)
 """)
 
 user_table_create = ("""
@@ -81,7 +69,7 @@ song_id VARCHAR NOT NULL PRIMARY KEY SORTKEY,
 title VARCHAR,
 artist_id VARCHAR REFERENCES artists (artist_id),
 year INTEGER,
-duration FLOAT
+duration FLOAT)
 """)
 
 artist_table_create = ("""
@@ -91,6 +79,19 @@ name VARCHAR,
 location VARCHAR,
 latitude FLOAT,
 longitude FLOAT)
+""")
+
+songplay_table_create = ("""
+CREATE TABLE IF NOT EXISTS songplays (
+songplay_id INT IDENTITY(0,1) NOT NULL PRIMARY KEY SORTKEY,
+start_time BIGINT,
+user_id VARCHAR REFERENCES users (user_id),
+level VARCHAR,
+song_id VARCHAR REFERENCES songs (song_id),
+artist_id VARCHAR REFERENCES artists (artist_id),
+session_id VARCHAR,
+location VARCHAR,
+user_agent VARCHAR)
 """)
 
 time_table_create = ("""
@@ -105,16 +106,16 @@ weekday INTEGER)
 """)
 
 # STAGING TABLES
-
+## TODO: remove hardcoded ARN
 staging_events_copy = ("""
 copy staging_events from 's3://udacity-dend/song_data' 
-credentials 'aws_iam_role=aws_helper.IAM_ROLE_ARN'
+credentials 'aws_iam_role=arn:aws:iam::590606803980:role/DWH_IAM_REDSHIFT_TEST_ROLE'
 gzip region 'us-west-2';
 """).format()
 
 staging_songs_copy = ("""
 copy staging_songs from 's3://udacity-dend/log_data' 
-credentials 'aws_iam_role=aws_helper.IAM_ROLE_ARN'
+credentials 'aws_iam_role=arn:aws:iam::590606803980:role/DWH_IAM_REDSHIFT_TEST_ROLE'
 gzip region 'us-west-2';
 """).format()
 
@@ -179,7 +180,7 @@ FROM (SELECT TIMESTAMP 'epoch' + start_time/1000 *INTERVAL '1 second' as start_t
 
 # QUERY LISTS
 
-create_table_queries = [staging_events_table_create, staging_songs_table_create, songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
+create_table_queries = [staging_events_table_create, staging_songs_table_create, user_table_create, artist_table_create, song_table_create, songplay_table_create, time_table_create]
 drop_table_queries = [staging_events_table_drop, staging_songs_table_drop, songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
 copy_table_queries = [staging_events_copy, staging_songs_copy]
 insert_table_queries = [songplay_table_insert, user_table_insert, song_table_insert, artist_table_insert, time_table_insert]

@@ -101,7 +101,7 @@ day INTEGER,
 week INTEGER,
 month INTEGER,
 year INTEGER,
-weekday BOOLEAN)
+weekday INTEGER)
 """)
 
 # STAGING TABLES
@@ -173,7 +173,7 @@ SELECT DISTINCT se.start_time,
                 EXTRACT (WEEK FROM se.start_time), 
                 EXTRACT (MONTH FROM se.start_time),
                 EXTRACT (YEAR FROM se.start_time), 
-                EXTRACT (WEEKDAY FROM se.start_time) IN ['5', '6'] 
+                EXTRACT (WEEKDAY FROM se.start_time) 
 FROM (SELECT TIMESTAMP 'epoch' + start_time/1000 *INTERVAL '1 second' as start_time FROM staging_events) se;
 """)
 

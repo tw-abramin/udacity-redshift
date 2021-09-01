@@ -20,24 +20,24 @@ test_table = (
 )
 staging_events_table_create = ("""
 CREATE TABLE IF NOT EXISTS staging_events (
-artist_name VARCHAR(100),
-auth VARCHAR(25),
-first_name VARCHAR(50),
-last_name VARCHAR(50),
-gender CHAR(3),
+artist_name VARCHAR,
+auth VARCHAR,
+first_name VARCHAR,
+last_name VARCHAR,
+gender CHAR,
 item_in_session INTEGER,
 length FLOAT,
-level CHAR(25),
-location VARCHAR(50),
-method CHAR(5),
-page CHAR(25),
+level CHAR,
+location VARCHAR,
+method CHAR,
+page CHAR,
 registration FLOAT,
 session_id INTEGER,
-song_title VARCHAR(100),
+song_title VARCHAR,
 status SMALLINT,
 start_time BIGINT,
-user_agent VARCHAR(256),
-user_id VARCHAR(128))
+user_agent VARCHAR,
+user_id VARCHAR)
 """)
 
 staging_songs_table_create = ("""

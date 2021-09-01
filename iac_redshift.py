@@ -74,8 +74,14 @@ def main():
         print(e)
 
 
-    def delete_cluster():
-        redshift.delete_cluster(ClusterIdentifier=aws_helper.CLUSTER_IDENTIFIER,  SkipFinalClusterSnapshot=True)
+def delete_cluster():
+    redshift = boto3.client('redshift',
+                        region_name="us-west-2",
+                        aws_access_key_id=AWS_KEY,
+                        aws_secret_access_key=AWS_SECRET
+                        )
+
+    redshift.delete_cluster(ClusterIdentifier=aws_helper.CLUSTER_IDENTIFIER,  SkipFinalClusterSnapshot=True)
 
 if __name__ == "__main__":
     main()

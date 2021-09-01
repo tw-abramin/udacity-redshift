@@ -42,14 +42,14 @@ user_id VARCHAR)
 
 staging_songs_table_create = ("""
 CREATE TABLE IF NOT EXISTS staging_songs (
-artist_id VARCHAR NOT NULL,
+artist_id VARCHAR,
 artist_latitude FLOAT,
 artist_location FLOAT,
 artist_longitude FLOAT,
 artist_name VARCHAR,
 duration FLOAT,
 num_songs INTEGER,
-song_id VARCHAR NOT NULL,
+song_id VARCHAR,
 title VARCHAR,
 year INTEGER)
 """)

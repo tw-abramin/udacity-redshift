@@ -85,10 +85,10 @@ songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays (
 songplay_id INT IDENTITY(0,1) NOT NULL PRIMARY KEY SORTKEY,
 start_time BIGINT,
-user_id VARCHAR REFERENCES users (user_id),
+user_id VARCHAR NOT NULL REFERENCES users (user_id),
 level VARCHAR,
-song_id VARCHAR REFERENCES songs (song_id),
-artist_id VARCHAR REFERENCES artists (artist_id),
+song_id VARCHAR NOT NULL REFERENCES songs (song_id),
+artist_id VARCHAR  NOT NULL REFERENCES artists (artist_id),
 session_id VARCHAR,
 location VARCHAR,
 user_agent VARCHAR)
@@ -126,13 +126,13 @@ INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_i
 SELECT DISTINCT se.start_time as start_time,
                 se.user_id as user_id,
                 se.level as level,
-                se.song_id as song_id,
+                ss.song_id as song_id,
                 ss.artist_id as artist_id,
                 se.session_id as session_id,
                 se.location as location,
                 se.user_agent as user_agent
 FROM staging_events se 
-JOIN staging_songs ss ON se.song_id = ss.song_id;
+JOIN staging_songs ss ON se.song_title = ss.title;
 """)
 
 user_table_insert = ("""

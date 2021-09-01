@@ -28,7 +28,7 @@ def main():
     cur = conn.cursor()
     
     try:
-        load_staging_tables(cur, conn)
+        # load_staging_tables(cur, conn)
         insert_tables(cur, conn)
     except Exception as e:
         print(e)

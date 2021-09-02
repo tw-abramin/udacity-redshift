@@ -9,6 +9,9 @@ AWS_KEY=aws_credentials['KEY']
 AWS_SECRET=aws_credentials['SECRET']
 
 def open_tcp_port():
+    """
+    If required, will open a VPC port to the redshift cluster. Not currently used.
+    """
     ec2 = boto3.resource('ec2',
                         region_name="us-west-2",
                         aws_access_key_id=AWS_KEY,
@@ -34,7 +37,7 @@ def main():
     """
     The code in this file has been adapted from Lesson 3 Data Warehousing, Exercise 2 
     in the Udacity DataEngineering NanoDegree.
-    It creates the cluster and opens a TCP port
+    It creates the redshift cluster
     """
     ## Set up client
     redshift = boto3.client('redshift',
@@ -75,6 +78,9 @@ def main():
 
 
 def delete_cluster():
+    """
+    Can be called to delete the Redshift cluster created above
+    """
     redshift = boto3.client('redshift',
                         region_name="us-west-2",
                         aws_access_key_id=AWS_KEY,

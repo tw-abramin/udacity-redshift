@@ -1,5 +1,9 @@
 import configparser
 
+"""
+A helper file to abstract the config access
+"""
+
 config = configparser.ConfigParser()
 config.read_file(open('dwh.cfg'))
 

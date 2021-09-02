@@ -12,4 +12,4 @@
     
 * To see a stored copy of the artist location visualization, click on the following link
 
-     [Artist Locations Plot](jupyter-artist-location.html)
+     [Artist Locations Plot](artist-location.png)

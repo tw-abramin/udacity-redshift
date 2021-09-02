@@ -106,21 +106,19 @@ weekday INTEGER)
 """)
 
 # STAGING TABLES
-## TODO: remove hardcoded ARN
 staging_events_copy = (f"""
-copy staging_events from 's3://udacity-dend/log_data' 
-credentials 'aws_iam_role=arn:aws:iam::590606803980:role/DWH_IAM_REDSHIFT_TEST_ROLE'
+copy staging_events from { aws_helper.S3_LOG_DATA }
+credentials { aws_helper.IAM_ROLE_ARN }
 format as json { aws_helper.S3_LOG_JSONPATH } compupdate off region 'us-west-2';
 """).format()
 
-staging_songs_copy = ("""
-copy staging_songs from 's3://udacity-dend/song_data' 
-credentials 'aws_iam_role=arn:aws:iam::590606803980:role/DWH_IAM_REDSHIFT_TEST_ROLE'
+staging_songs_copy = (f"""
+copy staging_songs from { aws_helper.S3_SONG_DATA }
+credentials { aws_helper.IAM_ROLE_ARN }
 format as json 'auto' compupdate off region 'us-west-2';
 """).format()
 
 # FINAL TABLES
-
 songplay_table_insert = ("""
 INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
 SELECT DISTINCT se.time_stamp as start_time,
